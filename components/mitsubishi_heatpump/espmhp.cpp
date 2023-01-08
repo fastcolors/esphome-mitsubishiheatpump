@@ -225,11 +225,31 @@ void MitsubishiHeatPump::control(const climate::ClimateCall &call) {
 
         this->swing_mode = *call.get_swing_mode();
         switch(*call.get_swing_mode()) {
-            case climate::CLIMATE_SWING_OFF:
+            case climate::CLIMATE_SWING_AUTO:
                 hp->setVaneSetting("AUTO");
                 updated = true;
                 break;
-            case climate::CLIMATE_SWING_VERTICAL:
+            case climate::CLIMATE_SWING_1:
+                hp->setVaneSetting("1");
+                updated = true;
+                break;
+            case climate::CLIMATE_SWING_2:
+                hp->setVaneSetting("2");
+                updated = true;
+                break;
+            case climate::CLIMATE_SWING_3:
+                hp->setVaneSetting("3");
+                updated = true;
+                break;
+            case climate::CLIMATE_SWING_4:
+                hp->setVaneSetting("4");
+                updated = true;
+                break;
+            case climate::CLIMATE_SWING_5:
+                hp->setVaneSetting("5");
+                updated = true;
+                break;
+            case climate::CLIMATE_SWING_SWING:
                 hp->setVaneSetting("SWING");
                 updated = true;
                 break;
@@ -334,10 +354,19 @@ void MitsubishiHeatPump::hpSettingsChanged() {
      * const char* VANE_MAP[7]        = {"AUTO", "1", "2", "3", "4", "5", "SWING"};
      */
     if (strcmp(currentSettings.vane, "SWING") == 0) {
-        this->swing_mode = climate::CLIMATE_SWING_VERTICAL;
-    }
-    else {
-        this->swing_mode = climate::CLIMATE_SWING_OFF;
+        this->swing_mode = climate::CLIMATE_SWING_SWING;
+    } else if (strcmp(currentSettings.fan, "1") == 0) {
+            this->swing_mode = climate::CLIMATE_SWING_1;
+    } else if (strcmp(currentSettings.fan, "2") == 0) {
+            this->swing_mode = climate::CLIMATE_SWING_2;
+    } else if (strcmp(currentSettings.fan, "3") == 0) {
+            this->swing_mode = climate::CLIMATE_SWING_3;
+    } else if (strcmp(currentSettings.fan, "4") == 0) {
+            this->swing_mode = climate::CLIMATE_SWING_4;
+    } else if (strcmp(currentSettings.fan, "5") == 0) {
+            this->swing_mode = climate::CLIMATE_SWING_5;
+    } else {
+        this->swing_mode = climate::CLIMATE_SWING_AUTO;
     }
     ESP_LOGI(TAG, "Swing mode is: %i", this->swing_mode);
 
